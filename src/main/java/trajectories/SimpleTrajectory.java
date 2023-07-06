@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleTrajectory {
-    static final int ATMOSPHERIC_CRUISE_SPEED = 500; // m/s
+    /*static final Velocity ATMOSPHERIC_CRUISE_SPEED = new Velocity(500); // m/s
 
     List<FlightPhase> phases;
 
@@ -96,5 +96,5 @@ public class SimpleTrajectory {
         FlightPhaseResults calculate() {
             return new FlightPhaseResults(100, 100);
         }
-    }
+    }*/
 }
