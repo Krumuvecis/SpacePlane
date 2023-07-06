@@ -1,8 +1,8 @@
 package vehicleGraphics;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 
 //
 class BorderPainter implements PainterInterface {

@@ -1,7 +1,7 @@
 package vehicleGraphics;
 
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 
 import vehicles.Vehicle;
 
