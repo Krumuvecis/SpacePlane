@@ -21,7 +21,7 @@ public abstract class Vehicle {
     public int getMass() {
         int total = 0;
         for(VehiclePart part : parts) {
-            //
+            total += part.mass;
         }
         return total;
     }
