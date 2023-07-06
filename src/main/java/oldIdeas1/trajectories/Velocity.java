@@ -1,4 +1,4 @@
-package trajectories;
+package oldIdeas1.trajectories;
 
 public class Velocity {
     private double value;

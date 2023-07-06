@@ -1,4 +1,4 @@
-package spacecrafts;
+package oldIdeas1.spacecrafts;
 
 import java.util.ArrayList;
 import java.util.List;

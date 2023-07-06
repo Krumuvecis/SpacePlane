@@ -1,13 +1,28 @@
 package vehicles;
 
-public class Vehicle {
-    public final int length;
+import java.util.List;
 
-    public Vehicle(int length) {
-        this.length = length;
+//
+public abstract class Vehicle {
+    private final List<VehiclePart> parts;
+
+    //
+    public Vehicle() {
+        parts = getInitialParts();
     }
 
     //
+    abstract List<VehiclePart> getInitialParts();
 
-    //structure
+    public List<VehiclePart> getParts() {
+        return parts;
+    }
+
+    public int getMass() {
+        int total = 0;
+        for(VehiclePart part : parts) {
+            //
+        }
+        return total;
+    }
 }

@@ -1,8 +1,10 @@
 package vehicleGraphics;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.JPanel;
 
+//
 public class VehiclePanel extends JPanel {
     private static final Color
             BACKGROUND = Color.BLACK,
@@ -14,6 +16,7 @@ public class VehiclePanel extends JPanel {
             borderPainter,
             vehiclePainter;
 
+    //
     public VehiclePanel(VehiclePanelData panelData) {
         super();
         this.panelData = panelData;
@@ -22,30 +25,11 @@ public class VehiclePanel extends JPanel {
         vehiclePainter = new VehiclePainter(panelData.getVehicle());
     }
 
+    //
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         borderPainter.paint(g);
         vehiclePainter.paint(g);
-    }
-
-    private static class BorderPainter implements PainterInterface {
-        private final Color color;
-        private final int offset;
-
-        BorderPainter(Color color, int offset) {
-            this.color = color;
-            this.offset = offset;
-        }
-
-        @Override
-        public void paint(Graphics g) {
-            g.setColor(color);
-            Dimension size = VehiclePanelData.getOptimalSize();
-            int
-                    x = size.width,
-                    y = size.height;
-            g.drawRect(offset, offset, Math.max(0, x - 2 * offset), Math.max(0, y - 2 * offset));
-        }
     }
 }

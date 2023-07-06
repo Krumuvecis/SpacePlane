@@ -1,18 +1,23 @@
 package main.graphics;
 
-import vehicleGraphics.VehiclePanel;
-import vehicleGraphics.VehiclePanelData;
+import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import vehicles.Vehicle;
+import vehicleGraphics.VehiclePanelData;
+import vehicleGraphics.VehiclePanel;
 
-import javax.swing.*;
-import java.awt.*;
-
+//
 public class Window extends JFrame {
     private static final int[] SIZE_CORRECTION = new int[] {17, 40};
     private static final Point LOCATION = new Point(700, 100);
     private static final String WINDOW_TITLE = "Vehicle viewer";
     private static final Color BACKGROUND = Color.BLACK;
 
+    //
     public Window(Vehicle vehicle) {
         super();
         setWindowConfig();

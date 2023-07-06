@@ -1,4 +1,4 @@
-package trajectories;
+package oldIdeas1.trajectories;
 
 import java.util.ArrayList;
 import java.util.List;

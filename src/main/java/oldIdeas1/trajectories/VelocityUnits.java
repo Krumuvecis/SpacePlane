@@ -1,4 +1,4 @@
-package trajectories;
+package oldIdeas1.trajectories;
 
 import java.util.HashMap;
 import java.util.Map;

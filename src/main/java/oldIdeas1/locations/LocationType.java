@@ -1,4 +1,4 @@
-package locations;
+package oldIdeas1.locations;
 
 public enum LocationType {
     GROUND,
