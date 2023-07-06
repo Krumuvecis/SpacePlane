@@ -7,13 +7,16 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
+//
 class RotationTestPainter implements PainterInterface {
     private final ImageObserver imageObserver;
 
-    RotationTestPainter(ImageObserver imageObserver) {
+    //
+    protected RotationTestPainter(ImageObserver imageObserver) {
         this.imageObserver = imageObserver;
     }
 
+    //
     @Override
     public void paint(Graphics g) {
         int[] location = new int[] {200, 200};
