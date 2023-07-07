@@ -14,7 +14,7 @@ import vehicles.VehicleAdapter;
 //
 public class Window extends JFrame {
     private static final int[] SIZE_CORRECTION = new int[] {17, 40};
-    private static final Point LOCATION = new Point(700, 100);
+    private static final Point LOCATION = new Point(600, 50);
     private static final String WINDOW_TITLE = "Vehicle viewer";
     private static final Color BACKGROUND = Color.BLACK;
 

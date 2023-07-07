@@ -2,8 +2,8 @@ package vehicles;
 
 //
 public class VehiclePart {
-    String name;
-    int
+    private final String name;
+    private final double
             mass,
             length,
             diameter;
@@ -14,5 +14,25 @@ public class VehiclePart {
         this.mass = mass;
         this.length = length;
         this.diameter = diameter;
+    }
+
+    //
+    public String getName() {
+        return name;
+    }
+
+    //
+    public double getMass() {
+        return mass;
+    }
+
+    //
+    public double getLength() {
+        return length;
+    }
+
+    //
+    public double getDiameter() {
+        return diameter;
     }
 }

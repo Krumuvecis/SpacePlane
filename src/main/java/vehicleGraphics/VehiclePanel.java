@@ -18,7 +18,7 @@ public class VehiclePanel extends JPanel {
         setBackground(panelData.getBackgroundColor());
         borderPainter = new BorderPainter(panelData, VehiclePanelData.getOptimalSize());
         rotationTestPainter = new RotationTestPainter(this);
-        vehiclePainter = new VehiclePainter(this, panelData);
+        vehiclePainter = new VehiclePainter(this, this.panelData);
     }
 
     //
@@ -27,6 +27,6 @@ public class VehiclePanel extends JPanel {
         super.paintComponent(g);
         borderPainter.paint(g, null);
         rotationTestPainter.paint(g, new int[] {250, 150});
-        vehiclePainter.paint(g, new int[] {150, 150});
+        vehiclePainter.paint(g, new int[] {0, 0});
     }
 }

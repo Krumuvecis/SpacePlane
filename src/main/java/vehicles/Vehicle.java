@@ -18,18 +18,18 @@ public abstract class Vehicle {
         return parts;
     }
 
-    public int getMass() {
-        int total = 0;
+    public double getMass() {
+        double total = 0;
         for(VehiclePart part : parts) {
-            total += part.mass;
+            total += part.getMass();
         }
         return total;
     }
 
-    public int getLength() {
-        int total = 0;
+    public double getLength() {
+        double total = 0;
         for(VehiclePart part : parts) {
-            total += part.length;
+            total += part.getLength();
         }
         return total;
     }

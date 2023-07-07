@@ -26,7 +26,7 @@ public class SimpleVehicle extends Vehicle {
     private static class Cockpit extends VehiclePart {
         //
         Cockpit() {
-            super("Cockpit", 10, 2, 2);
+            super("Cockpit", 10, 2, 3);
         }
     }
 
@@ -34,7 +34,7 @@ public class SimpleVehicle extends Vehicle {
     private static class Storage extends VehiclePart {
         //
         Storage() {
-            super("Storage", 10, 2, 2);
+            super("Storage", 10, 5, 3);
         }
     }
 
@@ -42,7 +42,7 @@ public class SimpleVehicle extends Vehicle {
     private static class FuelTanks extends VehiclePart {
         //
         FuelTanks() {
-            super("Fuel Tanks", 10, 2, 2);
+            super("Fuel Tanks", 10, 20, 3);
         }
     }
 
@@ -50,7 +50,7 @@ public class SimpleVehicle extends Vehicle {
     private static class Engines extends VehiclePart {
         //
         Engines() {
-            super("Engines", 10, 2, 2);
+            super("Engines", 10, 1, 3);
         }
     }
 }
