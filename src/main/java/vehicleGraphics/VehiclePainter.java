@@ -12,7 +12,7 @@ import vehicles.VehiclePart;
 
 //
 class VehiclePainter implements PainterInterface {
-    private static final int[] VEHICLE_DRAW_SIZE = new int[] {700, 700};
+    private static final int[] VEHICLE_DRAW_SIZE = new int[] {980, 880};
     private static final Color TEST_COLOR = Color.RED;
     private final ImageObserver imageObserver;
     private final VehiclePanelData panelData;
@@ -37,7 +37,7 @@ class VehiclePainter implements PainterInterface {
                 panelDrawSize[0], panelDrawSize[1],
                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
-        double angle = -90;
+        double angle = -20;
         g2.transform(getTransform(
                 angle, new int[] {
                         vehicleDrawSize[0] / 2,

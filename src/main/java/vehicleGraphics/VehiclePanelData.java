@@ -8,7 +8,7 @@ import vehicles.VehicleAdapter;
 //
 public class VehiclePanelData {
     private static final Dimension
-            OPTIMAL_SIZE = new Dimension(800, 800);
+            OPTIMAL_SIZE = new Dimension(1000, 900);
     private static final Color
             BACKGROUND = Color.BLACK,
             BORDER_COLOR = Color.RED;
