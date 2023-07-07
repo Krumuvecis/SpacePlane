@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 //
 public class SimpleVehicle extends Vehicle {
-
     //
     public SimpleVehicle() {
         super();

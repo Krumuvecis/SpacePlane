@@ -13,7 +13,16 @@ import vehicles.VehiclePart;
 //
 class VehiclePainter implements PainterInterface {
     private static final int[] VEHICLE_DRAW_SIZE = new int[] {980, 880};
-    private static final Color TEST_COLOR = Color.RED;
+    private static final Color
+            PART_COLOR = new Color(100, 100, 100),
+            PART_BORDER_COLOR = new Color(150, 150, 150),
+            PART_TEXT_COLOR = new Color(200, 200, 200);
+    private static final Font
+            PART_TITLE_FONT = new Font("Verdana", Font.BOLD, 18),
+            PART_DETAILS_FONT = new Font(null, Font.BOLD, 15);
+    private static final int
+            PART_MASS_DECIMAL_DIGITS = 2,
+            PART_LENGTH_DECIMAL_DIGITS = 1;
     private final ImageObserver imageObserver;
     private final VehiclePanelData panelData;
     private final int[]
@@ -49,37 +58,6 @@ class VehiclePainter implements PainterInterface {
         g.drawImage(image, vehicleDrawLocation[0], vehicleDrawLocation[1], imageObserver);
     }
 
-    private void paintVehicle(Graphics2D g2, int[] drawSize) {
-        int[] drawCenter = new int[] {drawSize[0] / 2, drawSize[1] / 2};
-
-        //vehicle
-        Vehicle vehicle = panelData.getVehicle();
-        double scale = vehicle.getLength() / drawSize[0];
-
-        List<VehiclePart> parts = vehicle.getParts();
-        int xPart = 0;
-        for (int i = 0; i < parts.size(); i++) {
-            VehiclePart part = parts.get(i);
-            double[] scaledPartSize = new double[] {
-                    part.getLength() / scale,
-                    part.getDiameter() / scale};
-            int[] partDrawLoc = new int[] {
-                    (int)(drawCenter[0] + drawSize[0] / 2 - scaledPartSize[0] - xPart / scale),
-                    (int)(drawCenter[1] - scaledPartSize[1] / 2)};
-
-            g2.setColor(TEST_COLOR);
-            g2.drawRect(
-                    partDrawLoc[0], partDrawLoc[1],
-                    (int) scaledPartSize[0], (int) scaledPartSize[1]);
-            g2.drawString(
-                    part.getName(),
-                    (int)(partDrawLoc[0] + scaledPartSize[0] / 2),
-                    (int)(partDrawLoc[1] + scaledPartSize[1] / 2));
-
-            xPart += part.getLength();
-        }
-    }
-
     //for rotation
     private AffineTransform getTransform(double angle, int[] center) {
         return new AffineTransform() {{
@@ -87,5 +65,81 @@ class VehiclePainter implements PainterInterface {
             rotate(Math.toRadians(angle));
             translate(-center[0], -center[1]);
         }};
+    }
+
+    private void paintVehicle(Graphics2D g2, int[] drawSize) {
+        int[] drawCenter = new int[] {drawSize[0] / 2, drawSize[1] / 2};
+
+        //vehicle
+        Vehicle vehicle = panelData.getVehicle();
+        double scale = vehicle.getLength() / drawSize[0];
+
+        //parts
+        List<VehiclePart> parts = vehicle.getParts();
+        int xPart = 0;
+        for (int i = 0; i < parts.size(); i++) {
+            VehiclePart part = parts.get(i);
+            double[]
+                    scaledPartSize = new double[] {
+                            part.getLength() / scale,
+                            part.getDiameter() / scale},
+                    partDrawLoc = new double[] {
+                            drawCenter[0] + (double) drawSize[0] / 2 - scaledPartSize[0] - xPart / scale,
+                            drawCenter[1] - scaledPartSize[1] / 2};
+            paintVehiclePart(g2, part, partDrawLoc, scaledPartSize);
+            xPart += part.getLength();
+        }
+    }
+
+    private void paintVehiclePart(Graphics2D g2, VehiclePart part,
+                                  double[] partDrawLoc, double[] scaledPartSize) {
+        g2.setColor(PART_COLOR);
+        g2.fillRect(
+                (int) partDrawLoc[0], (int) partDrawLoc[1],
+                (int) scaledPartSize[0], (int) scaledPartSize[1]);
+        g2.setColor(PART_BORDER_COLOR);
+        g2.drawRect(
+                (int) partDrawLoc[0], (int) partDrawLoc[1],
+                (int) scaledPartSize[0], (int) scaledPartSize[1]);
+        paintPartInfo(g2, part, partDrawLoc, scaledPartSize);
+    }
+
+    private void paintPartInfo(Graphics2D g2, VehiclePart part,
+                               double[] partDrawLoc, double[] scaledPartSize) {
+        g2.setColor(PART_TEXT_COLOR);
+        int[] textOffset = new int[] {-35, 5};
+
+        //title
+        g2.setFont(PART_TITLE_FONT);
+        g2.drawString(
+                part.getName(),
+                (int) (partDrawLoc[0] + scaledPartSize[0] / 2 + textOffset[0]),
+                (int) (partDrawLoc[1] + scaledPartSize[1] / 2 + textOffset[1]));
+
+        //details
+        g2.setFont(PART_DETAILS_FONT);
+        String massString = "M: " + convertMassToTonnes(part.getMass()) + " t";
+        g2.drawString(
+                massString,
+                (int) (partDrawLoc[0] + scaledPartSize[0] / 2 + textOffset[0]),
+                (int) (partDrawLoc[1] + scaledPartSize[1] / 2 + textOffset[1]) + 20);
+
+        String sizeString = "L: " + roundLength(part.getLength()) + " m";
+        g2.drawString(
+                sizeString,
+                (int) (partDrawLoc[0] + scaledPartSize[0] / 2 + textOffset[0]),
+                (int) (partDrawLoc[1] + scaledPartSize[1] / 2 + textOffset[1]) + 40);
+    }
+
+    private double convertMassToTonnes(double mass) {
+        return roundToDecimalDigits(mass / 1000, PART_MASS_DECIMAL_DIGITS);
+    }
+
+    private double roundLength(double length) {
+        return roundToDecimalDigits(length, PART_LENGTH_DECIMAL_DIGITS);
+    }
+
+    private double roundToDecimalDigits(double value, int decimalDigits) {
+        return ((int) (value * Math.pow(10, decimalDigits))) / Math.pow(10.0, decimalDigits);
     }
 }
