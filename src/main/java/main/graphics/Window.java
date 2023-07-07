@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import vehicles.Vehicle;
 import vehicleGraphics.VehiclePanelData;
 import vehicleGraphics.VehiclePanel;
+import vehicles.VehicleAdapter;
 
 //
 public class Window extends JFrame {
@@ -18,10 +19,10 @@ public class Window extends JFrame {
     private static final Color BACKGROUND = Color.BLACK;
 
     //
-    public Window(Vehicle vehicle) {
+    public Window(VehicleAdapter vehicleAdapter) {
         super();
         setWindowConfig();
-        setContents(vehicle);
+        setContents(vehicleAdapter);
         setResizable(false);
         setVisible(true);
     }
@@ -38,12 +39,12 @@ public class Window extends JFrame {
         setTitle(WINDOW_TITLE);
     }
 
-    private void setContents(Vehicle vehicle) {
+    private void setContents(VehicleAdapter vehicleAdapter) {
         setBackground(BACKGROUND);
-        add(getVehiclePanel(vehicle));
+        add(getVehiclePanel(vehicleAdapter));
     }
 
-    private JPanel getVehiclePanel(Vehicle vehicle) {
-        return new VehiclePanel(new VehiclePanelData(vehicle));
+    private JPanel getVehiclePanel(VehicleAdapter vehicleAdapter) {
+        return new VehiclePanel(new VehiclePanelData(vehicleAdapter));
     }
 }
