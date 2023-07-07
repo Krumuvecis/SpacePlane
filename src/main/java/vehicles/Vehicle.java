@@ -11,7 +11,7 @@ public abstract class Vehicle {
         parts = getInitialParts();
     }
 
-    //
+    //must be ordered for now
     abstract List<VehiclePart> getInitialParts();
 
     public List<VehiclePart> getParts() {
@@ -22,6 +22,14 @@ public abstract class Vehicle {
         int total = 0;
         for(VehiclePart part : parts) {
             total += part.mass;
+        }
+        return total;
+    }
+
+    public int getLength() {
+        int total = 0;
+        for(VehiclePart part : parts) {
+            total += part.length;
         }
         return total;
     }

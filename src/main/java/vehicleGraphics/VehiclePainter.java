@@ -17,8 +17,8 @@ class VehiclePainter implements PainterInterface {
 
     //
     @Override
-    public final void paint(Graphics g) {
+    public final void paint(Graphics g, int[] drawLocation) {
         g.setColor(COLOR);
-        g.drawString("Sample text", 100, 100);
+        g.drawString("Sample text", drawLocation[0], drawLocation[1] + 20);
     }
 }

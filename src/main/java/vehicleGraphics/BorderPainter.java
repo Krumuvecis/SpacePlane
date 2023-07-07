@@ -17,7 +17,7 @@ class BorderPainter implements PainterInterface {
 
     //
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g, int[] drawLocation) {
         g.setColor(color);
         Dimension size = VehiclePanelData.getOptimalSize();
         int

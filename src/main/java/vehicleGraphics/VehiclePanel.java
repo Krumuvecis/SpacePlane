@@ -31,8 +31,8 @@ public class VehiclePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        borderPainter.paint(g);
-        rotationTestPainter.paint(g);
-        vehiclePainter.paint(g);
+        borderPainter.paint(g, null);
+        rotationTestPainter.paint(g, new int[] {250, 150});
+        vehiclePainter.paint(g, new int[] {150, 150});
     }
 }

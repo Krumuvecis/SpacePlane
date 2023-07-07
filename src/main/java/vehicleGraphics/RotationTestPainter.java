@@ -18,10 +18,9 @@ class RotationTestPainter implements PainterInterface {
 
     //
     @Override
-    public void paint(Graphics g) {
-        int[] location = new int[] {200, 200};
+    public void paint(Graphics g, int[] drawLocation) {
         int radius = 100;
-        drawRotatedCircles(g, location, radius);
+        drawRotatedCircles(g, drawLocation, radius);
     }
 
     private void drawRotatedCircles(Graphics g, int[] location, int radius) {
