@@ -1,10 +1,12 @@
 package vehicleGraphics;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
 //
 public class VehiclePanel extends JPanel {
+    private static final double VEHICLE_DRAW_ANGLE = 30;
     private final VehiclePanelData panelData;
     private final PainterInterface
             borderPainter,
@@ -16,9 +18,17 @@ public class VehiclePanel extends JPanel {
         super();
         this.panelData = panelData;
         setBackground(panelData.getBackgroundColor());
-        borderPainter = new BorderPainter(panelData, VehiclePanelData.getOptimalSize());
+
+        borderPainter = new BorderPainter(panelData);
         rotationTestPainter = new RotationTestPainter(this);
-        vehiclePainter = new VehiclePainter(this, this.panelData);
+        vehiclePainter = new VehiclePainter(this, this.panelData, VEHICLE_DRAW_ANGLE);
+    }
+
+    @Override
+    public void update(Graphics g) {
+        super.update(g);
+        Dimension size = getSize();
+        panelData.setPanelSize(size.width, size.height);
     }
 
     //

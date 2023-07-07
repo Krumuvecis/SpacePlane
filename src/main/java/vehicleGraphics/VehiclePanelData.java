@@ -7,23 +7,29 @@ import vehicles.VehicleAdapter;
 
 //
 public class VehiclePanelData {
-    private static final Dimension
-            OPTIMAL_SIZE = new Dimension(1000, 900);
     private static final Color
             BACKGROUND = Color.BLACK,
             BORDER_COLOR = Color.RED;
     private static final int BORDER_OFFSET = 0;
 
+    private final VehicleAdapter vehicleAdapter;
+    private final Dimension panelSize;
+
     //
-    public static Dimension getOptimalSize() {
-        return OPTIMAL_SIZE;
+    public VehiclePanelData(VehicleAdapter vehicleAdapter, Dimension panelSize) {
+        this.vehicleAdapter = vehicleAdapter;
+        this.panelSize = panelSize;
     }
 
-    private final VehicleAdapter vehicleAdapter;
+    //
+    public void setPanelSize(int width, int height) {
+        panelSize.width = width;
+        panelSize.height = height;
+    }
 
     //
-    public VehiclePanelData(VehicleAdapter vehicleAdapter) {
-        this.vehicleAdapter = vehicleAdapter;
+    public Dimension getPanelSize() {
+        return panelSize;
     }
 
     //

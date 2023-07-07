@@ -12,7 +12,6 @@ import vehicles.VehiclePart;
 
 //
 class VehiclePainter implements PainterInterface {
-    private static final int[] VEHICLE_DRAW_SIZE = new int[] {980, 880};
     private static final Color
             PART_COLOR = new Color(100, 100, 100),
             PART_BORDER_COLOR = new Color(150, 150, 150),
@@ -23,39 +22,50 @@ class VehiclePainter implements PainterInterface {
     private static final int
             PART_MASS_DECIMAL_DIGITS = 2,
             PART_LENGTH_DECIMAL_DIGITS = 1;
+
     private final ImageObserver imageObserver;
     private final VehiclePanelData panelData;
-    private final int[]
-            panelDrawSize,
-            vehicleDrawSize;
+    private final double angle;
 
     //
-    protected VehiclePainter(ImageObserver imageObserver, VehiclePanelData panelData) {
+    protected VehiclePainter(ImageObserver imageObserver, VehiclePanelData panelData, double angle) {
         this.imageObserver = imageObserver;
         this.panelData = panelData;
-
-        Dimension size = VehiclePanelData.getOptimalSize();
-        panelDrawSize = new int[] {size.width, size.height};
-        vehicleDrawSize = VEHICLE_DRAW_SIZE;
+        this.angle = angle;
     }
 
     //
     @Override
     public final void paint(Graphics g, int[] drawLocation) {
+        Dimension panelSize = panelData.getPanelSize();
+        int drawDiameter = Math.min(panelSize.width, panelSize.height);
+
+        //draw y = actual -x
+        //draw x = actual -y
+
+        //vehicle & scale
+        Vehicle vehicle = panelData.getVehicle();
+        double scale = vehicle.getLength() / drawDiameter;
+
+        //buffered image stuff
+        int[]
+                bufferedImageSize = new int[] {
+                        drawDiameter,  //define width here, currently width = height
+                        drawDiameter},
+                bufferedImageCenter = new int[] {
+                        bufferedImageSize[0] / 2,
+                        bufferedImageSize[1] / 2},
+                bufferedImageLocation = new int[] {
+                        drawLocation[0] + (panelSize.width - bufferedImageSize[0]) / 2,
+                        drawLocation[1] + (panelSize.height - bufferedImageSize[1]) / 2};
+
         BufferedImage image = new BufferedImage(
-                panelDrawSize[0], panelDrawSize[1],
+                bufferedImageSize[0], bufferedImageSize[1],
                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
-        double angle = -20;
-        g2.transform(getTransform(
-                angle, new int[] {
-                        vehicleDrawSize[0] / 2,
-                        vehicleDrawSize[1] / 2}));
-        paintVehicle(g2, vehicleDrawSize);
-        int[] vehicleDrawLocation = new int[] {
-                drawLocation[0] + (panelDrawSize[0] - vehicleDrawSize[0]) / 2,
-                drawLocation[1] + (panelDrawSize[1] - vehicleDrawSize[1]) / 2};
-        g.drawImage(image, vehicleDrawLocation[0], vehicleDrawLocation[1], imageObserver);
+        g2.transform(getTransform(angle, bufferedImageCenter));
+        paintVehicle(g2, bufferedImageSize, vehicle, scale);
+        g.drawImage(image, bufferedImageLocation[0], bufferedImageLocation[1], imageObserver);
     }
 
     //for rotation
@@ -67,25 +77,19 @@ class VehiclePainter implements PainterInterface {
         }};
     }
 
-    private void paintVehicle(Graphics2D g2, int[] drawSize) {
+    private void paintVehicle(Graphics2D g2, int[] drawSize, Vehicle vehicle, double scale) {
         int[] drawCenter = new int[] {drawSize[0] / 2, drawSize[1] / 2};
-
-        //vehicle
-        Vehicle vehicle = panelData.getVehicle();
-        double scale = vehicle.getLength() / drawSize[0];
-
-        //parts
         List<VehiclePart> parts = vehicle.getParts();
-        int xPart = 0;
+        double xPart = 0;
         for (int i = 0; i < parts.size(); i++) {
             VehiclePart part = parts.get(i);
             double[]
                     scaledPartSize = new double[] {
-                            part.getLength() / scale,
-                            part.getDiameter() / scale},
+                            part.getDiameter() / scale,
+                            part.getLength() / scale},
                     partDrawLoc = new double[] {
-                            drawCenter[0] + (double) drawSize[0] / 2 - scaledPartSize[0] - xPart / scale,
-                            drawCenter[1] - scaledPartSize[1] / 2};
+                            drawCenter[0] - scaledPartSize[0] / 2,
+                            xPart / scale};
             paintVehiclePart(g2, part, partDrawLoc, scaledPartSize);
             xPart += part.getLength();
         }
@@ -107,7 +111,7 @@ class VehiclePainter implements PainterInterface {
     private void paintPartInfo(Graphics2D g2, VehiclePart part,
                                double[] partDrawLoc, double[] scaledPartSize) {
         g2.setColor(PART_TEXT_COLOR);
-        int[] textOffset = new int[] {-35, 5};
+        int[] textOffset = new int[]{-35, 5};
 
         //title
         g2.setFont(PART_TITLE_FONT);
