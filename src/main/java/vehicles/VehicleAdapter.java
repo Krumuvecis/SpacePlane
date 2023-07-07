@@ -4,6 +4,7 @@ package vehicles;
 public class VehicleAdapter {
     private Vehicle vehicle;
 
+    //
     public VehicleAdapter() {
         //
     }
