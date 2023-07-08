@@ -100,6 +100,12 @@ class VehiclePainter implements PainterInterface {
                 (int) partDrawLoc[1] - bufferedImageSize[1] / 2};
 
         g.drawImage(image, bufferedImageLocation[0], bufferedImageLocation[1], imageObserver);
+
+        //test square
+        g.setColor(Color.red);
+        g.drawRect(
+                bufferedImageLocation[0], bufferedImageLocation[1],
+                bufferedImageSize[0], bufferedImageSize[1]);
     }
 
     private void paintPartInfo(Graphics g, VehiclePart part, double[] partDrawLoc) {
