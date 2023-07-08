@@ -3,10 +3,7 @@ package vehicles;
 //
 public class VehiclePart {
     private final String name;
-    private final double
-            mass,
-            length,
-            diameter;
+    private final double mass, length, diameter;
 
     //
     VehiclePart(String name, int mass, int length, int diameter) {
