@@ -1,22 +1,24 @@
 package vehicles;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 //
 public abstract class Vehicle {
     private final List<VehiclePart> parts;
-    private final Map<VehiclePart, VehiclePartInfo> partInfo;
+    private final Map<VehiclePart, VehiclePartLocationInfo> partLocationMap;
 
     //
     public Vehicle() {
         parts = getInitialParts();
-        partInfo = new HashMap<>() {{
+        partLocationMap = new HashMap<>() {{
             double x = getLength() / 2;
-
             for (VehiclePart part : parts) {
-                put(part, new VehiclePartInfo(new double[]{x - part.getLength() / 2, 0}));
+                put(
+                        part,
+                        new VehiclePartLocationInfo(
+                                new double[]{x, 0}));
                 x -= part.getLength();
             }
         }};
@@ -29,10 +31,11 @@ public abstract class Vehicle {
         return parts;
     }
 
-    public VehiclePartInfo getPartInfo(VehiclePart part) {
-        return partInfo.get(part);
+    public VehiclePartLocationInfo getPartInfo(VehiclePart part) {
+        return partLocationMap.get(part);
     }
 
+    //
     public double getMass() {
         double total = 0;
         for (VehiclePart part : parts) {
@@ -41,6 +44,7 @@ public abstract class Vehicle {
         return total;
     }
 
+    //
     public double getLength() {
         double total = 0;
         for (VehiclePart part : parts) {

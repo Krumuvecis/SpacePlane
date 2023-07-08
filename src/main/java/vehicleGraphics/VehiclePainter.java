@@ -9,7 +9,7 @@ import java.awt.image.ImageObserver;
 
 import vehicles.Vehicle;
 import vehicles.VehiclePart;
-import vehicles.VehiclePartInfo;
+import vehicles.VehiclePartLocationInfo;
 
 //
 class VehiclePainter implements PainterInterface {
@@ -29,7 +29,8 @@ class VehiclePainter implements PainterInterface {
     private final double angle;
 
     //
-    protected VehiclePainter(ImageObserver imageObserver, VehiclePanelData panelData, double angle) {
+    protected VehiclePainter(ImageObserver imageObserver, VehiclePanelData panelData,
+                             double angle) {
         this.imageObserver = imageObserver;
         this.panelData = panelData;
         this.angle = angle;
@@ -60,7 +61,9 @@ class VehiclePainter implements PainterInterface {
         //buffered image stuff
     }
 
-    private void paintPart(Graphics g, VehiclePart part, VehiclePartInfo partInfo, double[] drawCenter, double scale) {
+    private void paintPart(Graphics g,
+                           VehiclePart part, VehiclePartLocationInfo partInfo,
+                           double[] drawCenter, double scale) {
         double[] partDrawLoc = new double[] {
                 drawCenter[0] - partInfo.getLocation()[1] / scale,
                 drawCenter[1] - partInfo.getLocation()[0] / scale};
@@ -68,7 +71,8 @@ class VehiclePainter implements PainterInterface {
         paintPartInfo(g, part, partDrawLoc);
     }
 
-    private void paintPartImage(Graphics g, VehiclePart part, double[] partDrawLoc, double scale) {
+    private void paintPartImage(Graphics g, VehiclePart part,
+                                double[] partDrawLoc, double scale) {
         int[]
                 bufferedImageSize = new int[] {
                         (int) (part.getDiameter() / scale),

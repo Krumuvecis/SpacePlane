@@ -8,7 +8,10 @@ import javax.swing.JPanel;
 public class VehiclePanel extends JPanel {
     private static final double VEHICLE_DRAW_ANGLE = 30;
     private final VehiclePanelData panelData;
-    private final PainterInterface borderPainter, rotationTestPainter, vehiclePainter;
+    private final PainterInterface
+            borderPainter,
+            rotationTestPainter,
+            vehiclePainter;
 
     //
     public VehiclePanel(VehiclePanelData panelData) {
@@ -21,6 +24,7 @@ public class VehiclePanel extends JPanel {
         vehiclePainter = new VehiclePainter(this, this.panelData, VEHICLE_DRAW_ANGLE);
     }
 
+    //
     @Override
     public void update(Graphics g) {
         super.update(g);
