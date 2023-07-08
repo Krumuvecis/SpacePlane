@@ -43,16 +43,17 @@ class VehiclePainter implements PainterInterface {
 
         //vehicle & scale
         Vehicle vehicle = panelData.getVehicle();
-        double scaleIncreaseTestCoefficient = 1;
         int maxDrawLength = Math.min(
                 (int) (panelSize.width * Math.sin(Math.toRadians(angle))),
                 (int) (panelSize.height * Math.cos(Math.toRadians(angle))));
-        double scale = vehicle.getLength() / maxDrawLength * scaleIncreaseTestCoefficient;
+        double scaleTestCoefficient = 1;
+        //actual * scale = draw
+        double scale = vehicle.getLength() / maxDrawLength * scaleTestCoefficient;
 
         for (VehiclePart part : vehicle.getParts()) {
             VehiclePartLocationInfo partInfo = vehicle.getPartInfo(part);
             double[]
-                    scaledPartLoc = new double[] { //actual loc
+                    scaledPartLoc = new double[] { //actual loc scaled to drawable for g2
                         -1 * partInfo.getLocation()[1] / scale, //draw x = actual -y
                         -1 * partInfo.getLocation()[0] / scale  //draw y = actual -x
                     },
