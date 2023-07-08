@@ -74,10 +74,10 @@ class VehiclePainter implements PainterInterface {
         return new double[] { //use trigonometry here
                 drawCenter[0]
                         + relativeOrthogonalLoc[0] * Math.cos(angle)
-                        + relativeOrthogonalLoc[1] * Math.sin(angle),
+                        - relativeOrthogonalLoc[1] * Math.sin(angle),
                 drawCenter[1]
                         + relativeOrthogonalLoc[1] * Math.cos(angle)
-                        + relativeOrthogonalLoc[0] * Math.sin(angle)};
+                        - relativeOrthogonalLoc[0] * Math.sin(angle)};
     }
 
     private void paintPartImage(Graphics g, VehiclePart part,
