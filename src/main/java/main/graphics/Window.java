@@ -1,8 +1,6 @@
 package main.graphics;
 
-import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.Color;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,12 +16,15 @@ public class Window extends JFrame {
     private static final String WINDOW_TITLE = "Vehicle viewer";
     private static final Color BACKGROUND = Color.BLACK;
 
+    private final VehiclePanelData vehiclePanelData;
+
     //
     public Window(VehicleAdapter vehicleAdapter) {
         super();
         setWindowConfig();
-        setContents(vehicleAdapter);
-        setResizable(false);
+        vehiclePanelData = new VehiclePanelData(vehicleAdapter, PANEL_SIZE);
+        setContents();
+        //setResizable(false);
         setVisible(true);
     }
 
@@ -37,12 +38,12 @@ public class Window extends JFrame {
         setTitle(WINDOW_TITLE);
     }
 
-    private void setContents(VehicleAdapter vehicleAdapter) {
+    private void setContents() {
         setBackground(BACKGROUND);
-        add(getVehiclePanel(vehicleAdapter));
+        add(getVehiclePanel());
     }
 
-    private JPanel getVehiclePanel(VehicleAdapter vehicleAdapter) {
-        return new VehiclePanel(new VehiclePanelData(vehicleAdapter, PANEL_SIZE));
+    private JPanel getVehiclePanel() {
+        return new VehiclePanel(vehiclePanelData);
     }
 }
