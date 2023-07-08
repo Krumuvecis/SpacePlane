@@ -73,7 +73,7 @@ class VehiclePainter implements PainterInterface {
         double[] scaledPartSize = new double[] {
                 part.getDiameter() / scale,
                 part.getLength() / scale};
-        int bufferedImageSizeMaxDimension = (int) Math.max(scaledPartSize[0], scaledPartSize[1]);
+        int bufferedImageSizeMaxDimension = (int) Math.hypot(scaledPartSize[0], scaledPartSize[1]);
 
         //buffered image stuff
         int[]
