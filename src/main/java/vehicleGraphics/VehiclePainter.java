@@ -70,11 +70,16 @@ class VehiclePainter implements PainterInterface {
 
     private void paintPartImage(Graphics g, VehiclePart part,
                                 double[] partDrawLoc, double scale) {
+        double[] scaledPartSize = new double[] {
+                part.getDiameter() / scale,
+                part.getLength() / scale};
+        int bufferedImageSizeMaxDimension = (int) Math.max(scaledPartSize[0], scaledPartSize[1]);
+
         //buffered image stuff
         int[]
                 bufferedImageSize = new int[] {
-                        (int) (part.getDiameter() / scale),
-                        (int) (part.getLength() / scale)},
+                        bufferedImageSizeMaxDimension,
+                        bufferedImageSizeMaxDimension},
                 bufferedImageCenter = new int[] {
                         bufferedImageSize[0] / 2,
                         bufferedImageSize[1] / 2};
@@ -88,12 +93,14 @@ class VehiclePainter implements PainterInterface {
 
         g2.setColor(PART_COLOR);
         g2.fillRect(
-                0, 0,
-                bufferedImageSize[0], bufferedImageSize[1]);
+                (int) (bufferedImageCenter[0] - scaledPartSize[0] / 2),
+                (int) (bufferedImageCenter[1] - scaledPartSize[1] / 2),
+                (int) scaledPartSize[0], (int) scaledPartSize[1]);
         g2.setColor(PART_BORDER_COLOR);
         g2.drawRect(
-                0, 0,
-                bufferedImageSize[0], bufferedImageSize[1]);
+                (int) (bufferedImageCenter[0] - scaledPartSize[0] / 2),
+                (int) (bufferedImageCenter[1] - scaledPartSize[1] / 2),
+                (int) scaledPartSize[0], (int) scaledPartSize[1]);
 
         int[] bufferedImageLocation = new int[] {
                 (int) partDrawLoc[0] - bufferedImageSize[0] / 2,
