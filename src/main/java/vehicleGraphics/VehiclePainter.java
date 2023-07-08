@@ -48,18 +48,28 @@ class VehiclePainter implements PainterInterface {
         //actual * scale = draw
         double scale = vehicle.getLength() / maxDrawLength * scaleTestCoefficient;
 
+        //paint parts
         for (VehiclePart part : vehicle.getParts()) {
             VehiclePartLocationInfo partInfo = vehicle.getPartInfo(part);
-            double[]
-                    scaledPartLoc = new double[] { //actual loc scaled to drawable for g2
-                        -1 * partInfo.getLocation()[1] / scale, //draw x = actual -y
-                        -1 * partInfo.getLocation()[0] / scale  //draw y = actual -x
-                    },
-                    partDrawLoc = new double[] { //use trigonometry here
-                            drawCenter[0] + scaledPartLoc[0] * Math.sin(angle) + scaledPartLoc[1] * Math.cos(angle),
-                            drawCenter[1] + scaledPartLoc[0] * Math.cos(angle) + scaledPartLoc[1] * Math.sin(angle)};
-            paintPart(g, part, partDrawLoc, scale);
+            paintPart(
+                    g, part,
+                    getDrawLoc(partInfo.getLocation(), drawCenter, scale),
+                    scale);
         }
+    }
+
+    private double[] getDrawLoc(double[] actualLoc, double[] drawCenter, double scale) {
+        double[] relativeOrthogonalLoc = new double[] { //actual loc scaled to drawable for g2
+                -1 * actualLoc[1] / scale,  //draw x = actual -y
+                -1 * actualLoc[0] / scale}; //draw y = actual -x
+
+        return new double[] { //use trigonometry here
+                drawCenter[0]
+                        + relativeOrthogonalLoc[0] * Math.cos(angle)
+                        + relativeOrthogonalLoc[1] * Math.sin(angle),
+                drawCenter[1]
+                        + relativeOrthogonalLoc[1] * Math.cos(angle)
+                        + relativeOrthogonalLoc[0] * Math.sin(angle)};
     }
 
     private void paintPart(Graphics g, VehiclePart part,
@@ -73,15 +83,15 @@ class VehiclePainter implements PainterInterface {
         double[] scaledPartSize = new double[] {
                 part.getDiameter() / scale,
                 part.getLength() / scale};
-        int bufferedImageSizeMaxDimension = (int) Math.hypot(
+        int bufferedImageMaxSize = (int) Math.hypot(
                 scaledPartSize[0],
                 scaledPartSize[1]);
 
         //buffered image stuff
         int[]
                 bufferedImageSize = new int[] {
-                        bufferedImageSizeMaxDimension,
-                        bufferedImageSizeMaxDimension},
+                        bufferedImageMaxSize,
+                        bufferedImageMaxSize},
                 bufferedImageCenter = new int[] {
                         bufferedImageSize[0] / 2,
                         bufferedImageSize[1] / 2};

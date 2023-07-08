@@ -12,16 +12,8 @@ public abstract class Vehicle {
     //
     public Vehicle() {
         parts = getInitialParts();
-        partLocationMap = new HashMap<>() {{
-            double x = getLength() / 2;
-            for (VehiclePart part : parts) {
-                put(
-                        part,
-                        new VehiclePartLocationInfo(
-                                new double[]{x, 0}));
-                x -= part.getLength();
-            }
-        }};
+        partLocationMap = new HashMap<>();
+        setPartLocationInfo();
     }
 
     //must be ordered for now
@@ -29,6 +21,18 @@ public abstract class Vehicle {
 
     public List<VehiclePart> getParts() {
         return parts;
+    }
+
+    private void setPartLocationInfo() {
+        double x = getLength() / 2; // {0, 0} at amidship
+        for (VehiclePart part : parts) {
+            double partLength = part.getLength();
+            partLocationMap.put(part, new VehiclePartLocationInfo(new double[] {
+                    x - partLength / 2,
+                    0}
+            ));
+            x -= partLength;
+        }
     }
 
     public VehiclePartLocationInfo getPartInfo(VehiclePart part) {
