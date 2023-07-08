@@ -48,13 +48,21 @@ class VehiclePainter implements PainterInterface {
         //actual * scale = draw
         double scale = vehicle.getLength() / maxDrawLength * scaleTestCoefficient;
 
-        //paint parts
+        //paint part images
         for (VehiclePart part : vehicle.getParts()) {
             VehiclePartLocationInfo partInfo = vehicle.getPartInfo(part);
-            paintPart(
+            paintPartImage(
                     g, part,
                     getDrawLoc(partInfo.getLocation(), drawCenter, scale),
                     scale);
+        }
+
+        //paint part info
+        for (VehiclePart part : vehicle.getParts()) {
+            VehiclePartLocationInfo partInfo = vehicle.getPartInfo(part);
+            paintPartInfo(
+                    g, part,
+                    getDrawLoc(partInfo.getLocation(), drawCenter, scale));
         }
     }
 
@@ -70,12 +78,6 @@ class VehiclePainter implements PainterInterface {
                 drawCenter[1]
                         + relativeOrthogonalLoc[1] * Math.cos(angle)
                         + relativeOrthogonalLoc[0] * Math.sin(angle)};
-    }
-
-    private void paintPart(Graphics g, VehiclePart part,
-                           double[] partDrawLoc, double scale) {
-        paintPartImage(g, part, partDrawLoc, scale);
-        paintPartInfo(g, part, partDrawLoc);
     }
 
     private void paintPartImage(Graphics g, VehiclePart part,
