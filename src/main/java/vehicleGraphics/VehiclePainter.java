@@ -38,37 +38,38 @@ class VehiclePainter implements PainterInterface {
     public final void paint(Graphics g, int[] drawLocation) {
         Dimension panelSize = panelData.getPanelSize();
         double[] drawCenter = new double[] {
-                panelSize.width / 2.0,
-                panelSize.height / 2.0};
-        int maxDrawLength = Math.min(
-                (int) (panelSize.width * Math.sin(angle)),
-                (int) (panelSize.height * Math.cos(angle)));
+                (double) panelSize.width / 2,
+                (double) panelSize.height / 2};
 
         //vehicle & scale
         Vehicle vehicle = panelData.getVehicle();
-        double scale = vehicle.getLength() / maxDrawLength * 1.5;
+        double scaleIncreaseTestCoefficient = 1;
+        int maxDrawLength = Math.min(
+                (int) (panelSize.width * Math.sin(Math.toRadians(angle))),
+                (int) (panelSize.height * Math.cos(Math.toRadians(angle))));
+        double scale = vehicle.getLength() / maxDrawLength * scaleIncreaseTestCoefficient;
 
         for (VehiclePart part : vehicle.getParts()) {
             VehiclePartLocationInfo partInfo = vehicle.getPartInfo(part);
             double[]
-                    scaledPartLoc = new double[] {
-                        - partInfo.getLocation()[1] / scale, //draw x = actual -y
-                        - partInfo.getLocation()[0] / scale  //draw y = actual -x
+                    scaledPartLoc = new double[] { //actual loc
+                        -1 * partInfo.getLocation()[1] / scale, //draw x = actual -y
+                        -1 * partInfo.getLocation()[0] / scale  //draw y = actual -x
                     },
                     partDrawLoc = new double[] { //use trigonometry here
-                            drawCenter[0] + scaledPartLoc[0] * Math.sin(angle) + scaledPartLoc[1] * Math.cos(angle),
-                            drawCenter[1] + scaledPartLoc[0] * Math.cos(angle) + scaledPartLoc[1] * Math.sin(angle)};
+                            drawCenter[0] + scaledPartLoc[0] * Math.sin(Math.toRadians(angle)) + scaledPartLoc[1] * Math.cos(Math.toRadians(angle)),
+                            drawCenter[1] + scaledPartLoc[0] * Math.cos(Math.toRadians(angle)) + scaledPartLoc[1] * Math.sin(Math.toRadians(angle))};
             paintPart(g, part, partDrawLoc, scale);
         }
     }
 
     private void paintPart(Graphics g, VehiclePart part,
                            double[] partDrawLoc, double scale) {
-        //paintPartImage(g, part, partDrawLoc, scale);
+        paintPartImage(g, part, partDrawLoc, scale);
         paintPartInfo(g, part, partDrawLoc);
     }
 
-    /*private void paintPartImage(Graphics g, VehiclePart part,
+    private void paintPartImage(Graphics g, VehiclePart part,
                                 double[] partDrawLoc, double scale) {
         //buffered image stuff
         int[]
@@ -77,14 +78,12 @@ class VehiclePainter implements PainterInterface {
                         (int) (part.getLength() / scale)},
                 bufferedImageCenter = new int[] {
                         bufferedImageSize[0] / 2,
-                        bufferedImageSize[1] / 2},
-                bufferedImageLocation = new int[] {
-                        (int) partDrawLoc[0] - bufferedImageSize[0] / 2,
-                        (int) partDrawLoc[1] - bufferedImageSize[1] / 2};
+                        bufferedImageSize[1] / 2};
 
         BufferedImage image = new BufferedImage(
                 bufferedImageSize[0], bufferedImageSize[1],
                 BufferedImage.TYPE_INT_ARGB);
+
         Graphics2D g2 = image.createGraphics();
         g2.transform(getTransform(angle, bufferedImageCenter));
 
@@ -97,37 +96,12 @@ class VehiclePainter implements PainterInterface {
                 0, 0,
                 bufferedImageSize[0], bufferedImageSize[1]);
 
+        int[] bufferedImageLocation = new int[] {
+                (int) partDrawLoc[0] - bufferedImageSize[0] / 2,
+                (int) partDrawLoc[1] - bufferedImageSize[1] / 2};
+
         g.drawImage(image, bufferedImageLocation[0], bufferedImageLocation[1], imageObserver);
-    }*/
-
-    /*private void paintVehicle(Graphics2D g2, int[] drawSize, Vehicle vehicle, double scale) {
-        int[] drawCenter = new int[] {drawSize[0] / 2, drawSize[1] / 2};
-        List<VehiclePart> parts = vehicle.getParts();
-        for (int i = 0; i < parts.size(); i++) {
-            VehiclePart part = parts.get(i);
-            double[]
-                    scaledPartSize = new double[] {
-                    part.getDiameter() / scale,
-                    part.getLength() / scale},
-                    partDrawLoc = new double[] {
-                            drawCenter[0] - scaledPartSize[0] / 2 - vehicle.getPartInfo(part).getLocation()[1] / scale,
-                            drawCenter[1] - scaledPartSize[1] / 2 - vehicle.getPartInfo(part).getLocation()[0] / scale};
-            paintVehiclePart(g2, part, partDrawLoc, scaledPartSize);
-        }
     }
-
-    private void paintVehiclePart(Graphics2D g2, VehiclePart part,
-                                  double[] partDrawLoc, double[] scaledPartSize) {
-        g2.setColor(PART_COLOR);
-        g2.fillRect(
-                (int) partDrawLoc[0], (int) partDrawLoc[1],
-                (int) scaledPartSize[0], (int) scaledPartSize[1]);
-        g2.setColor(PART_BORDER_COLOR);
-        g2.drawRect(
-                (int) partDrawLoc[0], (int) partDrawLoc[1],
-                (int) scaledPartSize[0], (int) scaledPartSize[1]);
-        paintPartInfo(g2, part, partDrawLoc, scaledPartSize);
-    }*/
 
     private void paintPartInfo(Graphics g, VehiclePart part, double[] partDrawLoc) {
         int[] textOffset = new int[] {-35, 5};
