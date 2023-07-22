@@ -4,8 +4,8 @@ import vehicles.engines.Engine;
 
 //
 public class ChemicalEngine extends Engine {
-    private static final double EXHAUST_VELOCITY = 5000;
     private static final double
+            EXHAUST_VELOCITY = 5000,
             EXHAUST_DIAMETER = 1,
             HARDCODED_MASS = 1000;
 

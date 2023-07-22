@@ -3,8 +3,8 @@ package vehicles.engines.chemical;
 //
 public class Nozzle {
     private static final double
-            DIAMETER_THROAT_RATIO = 2.0,
-            LENGTH_DIAMETER_RATIO = 3.0;
+            DIAMETER_THROAT_RATIO = 30.0, // arbitrary
+            LENGTH_DIAMETER_RATIO = 1 / Math.tan(Math.toRadians(15)); // approximate
 
     private final double diameter, length;
 

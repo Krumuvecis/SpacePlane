@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 //
 public class VehiclePanel extends JPanel {
-    private static final double VEHICLE_DRAW_ANGLE = 55;
+    private static final double VEHICLE_DRAW_ANGLE = 33;
     private final VehiclePanelData panelData;
     private final PainterInterface
             borderPainter,
