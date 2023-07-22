@@ -1,6 +1,7 @@
 package vehicles.engines;
 
 import vehicles.VehiclePart;
+import vehicles.engines.chemical.ChemicalEngine;
 
 //
 public abstract class Engine extends VehiclePart {
