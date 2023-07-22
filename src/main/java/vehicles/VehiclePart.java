@@ -9,7 +9,7 @@ public class VehiclePart {
             diameter;
 
     //
-    VehiclePart(String name, double mass, double length, double diameter) {
+    public VehiclePart(String name, double mass, double length, double diameter) {
         this.name = name;
         this.mass = mass;
         this.length = length;

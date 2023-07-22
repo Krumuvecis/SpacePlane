@@ -3,9 +3,13 @@ package vehicles;
 import java.util.List;
 import java.util.ArrayList;
 
+import vehicles.engines.EngineType;
+import vehicles.engines.Engine;
+
 //
 public class SimpleVehicle extends Vehicle {
     private static final int PASSENGER_COUNT = 5;
+    private static final EngineType ENGINE_TYPE = EngineType.CHEMICAL;
     private static final double TARGET_DIAMETER = 3.0;
 
     //
@@ -20,8 +24,27 @@ public class SimpleVehicle extends Vehicle {
             add(Cockpit.newCockpit(TARGET_DIAMETER, PASSENGER_COUNT));
             add(new Storage(TARGET_DIAMETER));
             add(new FuelTanks(TARGET_DIAMETER));
-            add(new Engines(TARGET_DIAMETER));
+            add(Engine.newEngine(TARGET_DIAMETER, ENGINE_TYPE));
         }};
+    }
+
+    //unused yet
+    private abstract static class CylindricalPart extends VehiclePart {
+        CylindricalPart(String name, double length, double diameter) {
+            super(name, 0, length, diameter);
+        }
+
+        static double getCylinderLength(double volume, double diameter) {
+            return volume / getCylinderCrossSection(diameter);
+        }
+
+        static double getCylinderVolume(double diameter, double length) {
+            return getCylinderCrossSection(diameter) * length;
+        }
+
+        private static double getCylinderCrossSection(double diameter) {
+            return Math.PI * Math.pow(diameter / 2, 2);
+        }
     }
 
     //
@@ -53,12 +76,12 @@ public class SimpleVehicle extends Vehicle {
 
         private static double calculateFinalLength(double diameter, int passengerCount) {
             return Math.max(
-                    getCylinderLength(passengerCount * VOLUME_PER_PASSENGER, diameter),
+                    CylindricalPart.getCylinderLength(passengerCount * VOLUME_PER_PASSENGER, diameter),
                     MINIMUM_LENGTH);
         }
 
         private static double calculateMass(double diameter, double length) {
-            return PART_DENSITY * getCylinderVolume(diameter, length);
+            return PART_DENSITY * CylindricalPart.getCylinderVolume(diameter, length);
         }
     }
 
@@ -84,36 +107,5 @@ public class SimpleVehicle extends Vehicle {
         private static double calculateMass() {
             return 10;
         }
-    }
-
-    //
-    private static class Engines extends VehiclePart {
-        //
-        Engines(double diameter) {
-            super("Engines", calculateMass(), 1, diameter);
-        }
-
-        private static double calculateMass() {
-            return 10;
-        }
-    }
-
-    //unused yet
-    private abstract static class CylindricalPart extends VehiclePart {
-        CylindricalPart(String name, double length, double diameter) {
-            super(name, 0, length, diameter);
-        }
-    }
-
-    private static double getCylinderCrossSection(double diameter) {
-        return Math.PI * Math.pow(diameter / 2, 2);
-    }
-
-    private static double getCylinderLength(double volume, double diameter) {
-        return volume / getCylinderCrossSection(diameter);
-    }
-
-    private static double getCylinderVolume(double diameter, double length) {
-        return getCylinderCrossSection(diameter) * length;
     }
 }
