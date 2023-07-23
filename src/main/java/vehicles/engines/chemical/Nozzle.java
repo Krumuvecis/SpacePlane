@@ -6,7 +6,7 @@ import vehicles.engines.propellants.Propellant;
 //
 public class Nozzle {
     private static final double
-            DIAMETER_THROAT_RATIO = 30.0, // arbitrary
+            DIAMETER_THROAT_RATIO = 50.0, // arbitrary
             LENGTH_DIAMETER_RATIO = 1 / Math.tan(Math.toRadians(15)); // approximate
     private final double
             diameter,

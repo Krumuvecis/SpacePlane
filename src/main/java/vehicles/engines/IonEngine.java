@@ -6,11 +6,11 @@ import vehicles.engines.propellants.SodiumPropellant;
 //
 public class IonEngine extends Engine {
     private static final double
-            EXHAUST_VELOCITY = 20000,    // arbitrary
-            EXHAUST_TEMPERATURE = 10000, // arbitrary
-            EXHAUST_PRESSURE = 100000,   // arbitrary
-            HARDCODED_LENGTH = 2,        // arbitrary
-            HARDCODED_MASS = 10000;      // arbitrary
+            EXHAUST_VELOCITY = 20000,       // arbitrary
+            EXHAUST_TEMPERATURE = 5000,    // arbitrary
+            EXHAUST_PRESSURE = 0.1 * 10000, // arbitrary
+            HARDCODED_LENGTH = 2,           // arbitrary
+            HARDCODED_MASS = 10000;         // arbitrary
     private static final Propellant PROPELLANT = new SodiumPropellant();
 
     //

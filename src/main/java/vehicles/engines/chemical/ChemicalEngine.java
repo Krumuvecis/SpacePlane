@@ -7,10 +7,10 @@ import vehicles.engines.propellants.WaterPropellant;
 //
 public class ChemicalEngine extends Engine {
     private static final double
-            EXHAUST_VELOCITY = 5000, // average, approximate
-            EXHAUST_TEMPERATURE = 5000, // arbitrary
-            EXHAUST_PRESSURE = 200000, // arbitrary
-            HARDCODED_MASS = 5000;   // arbitrary
+            EXHAUST_VELOCITY = 5000,        // average, approximate
+            EXHAUST_TEMPERATURE = 2000,     // arbitrary
+            EXHAUST_PRESSURE = 0.7 * 10000, // arbitrary
+            HARDCODED_MASS = 5000;          // arbitrary
     private static final Propellant PROPELLANT = new WaterPropellant();
 
     private final CombustionChamber combustionChamber;
