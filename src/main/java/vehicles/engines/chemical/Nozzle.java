@@ -1,11 +1,11 @@
 package vehicles.engines.chemical;
 
 import mathUtilities.Circles;
+import vehicles.engines.propellants.Propellant;
 
 //
 public class Nozzle {
     private static final double
-            GAS_CONSTANT = 8.31,
             DIAMETER_THROAT_RATIO = 30.0, // arbitrary
             LENGTH_DIAMETER_RATIO = 1 / Math.tan(Math.toRadians(15)); // approximate
 
@@ -14,21 +14,20 @@ public class Nozzle {
             length;
 
     //
-    protected Nozzle(double thrust, double exhaustVelocity,
-                     double propellantMolarMass, double exhaustTemperature, double exhaustPressure) {
+    protected Nozzle(Propellant propellant,
+                     double thrust, double exhaustVelocity,
+                     double exhaustTemperature, double exhaustPressure) {
         double
-                propellantDensityAtExhaust = calculatePropellantDensityAtExhaust(
-                        propellantMolarMass, exhaustTemperature, exhaustPressure),
+                propellantDensityAtExhaust = propellant.getDensity(exhaustTemperature, exhaustPressure),
                 exhaustCrossSection = calculateExhaustCrossSection(
                         thrust, exhaustVelocity, propellantDensityAtExhaust);
         diameter = calculateExhaustDiameter(exhaustCrossSection);
         length = diameter * LENGTH_DIAMETER_RATIO;
-        printParametersToConsole(propellantDensityAtExhaust, length, diameter);
-    }
 
-    // ro = p * M / R / T
-    private double calculatePropellantDensityAtExhaust(double molarMass, double temperature, double pressure) {
-        return pressure * molarMass / GAS_CONSTANT / temperature;
+        printParametersToConsole(
+                propellantDensityAtExhaust,
+                length, diameter,
+                getThroatDiameter());
     }
 
     // S = F / (ro * ve ^ 2)
@@ -41,13 +40,23 @@ public class Nozzle {
     }
 
     private static void printParametersToConsole(double propellantDensityAtExhaust,
-                                                 double length, double diameter) {
+                                                 double length, double diameter,
+                                                 double throatDiameter) {
+        //propellant density
+        double propellantDensity_rounded = ((int) (propellantDensityAtExhaust * 1000)) / 1000.0;
+        System.out.println("Propellant density at exhaust: " + propellantDensity_rounded + " kg/m3");
+
+        //length x diameter
         double
-                propellantDensity_rounded = ((int) (propellantDensityAtExhaust * 1000)) / 1000.0,
                 length_rounded = ((int) (length * 1000)) / 1000.0,
                 diameter_rounded = ((int) (diameter * 1000)) / 1000.0;
-        System.out.println("Propellant density at exhaust: " + propellantDensity_rounded + " kg/m3");
-        System.out.println("Nozzle size: " + length_rounded + " x " + diameter_rounded);
+        System.out.println("Nozzle size: " + length_rounded + " m x " + diameter_rounded + " m");
+
+        //throat diameter
+        double
+                throatDiameter_mm = throatDiameter * 1000,
+                throatDiameter_mm_rounded = ((int) (throatDiameter_mm * 100)) / 100.0;
+        System.out.println("Throat diameter: " + throatDiameter_mm_rounded + " mm");
     }
 
     //

@@ -1,15 +1,17 @@
 package vehicles.engines.chemical;
 
 import vehicles.engines.Engine;
+import vehicles.engines.propellants.Propellant;
+import vehicles.engines.propellants.WaterPropellant;
 
 //
 public class ChemicalEngine extends Engine {
     private static final double
             EXHAUST_VELOCITY = 5000, // average, approximate
-            PROPELLANT_MOLAR_MASS = 18 / 1000.0,
-            EXHAUST_TEMPERATURE = 5000,
-            EXHAUST_PRESSURE = 200000,
+            EXHAUST_TEMPERATURE = 5000, // arbitrary
+            EXHAUST_PRESSURE = 200000, // arbitrary
             HARDCODED_MASS = 5000;   // arbitrary
+    private static final Propellant PROPELLANT = new WaterPropellant();
 
     private final CombustionChamber combustionChamber;
     private final Nozzle nozzle;
@@ -17,21 +19,26 @@ public class ChemicalEngine extends Engine {
     //use this for creating new chemical engine
     public static ChemicalEngine newChemicalEngine(double thrust) {
         Nozzle nozzle = new Nozzle(
+                PROPELLANT,
                 thrust, EXHAUST_VELOCITY,
-                PROPELLANT_MOLAR_MASS, EXHAUST_TEMPERATURE, EXHAUST_PRESSURE);
+                EXHAUST_TEMPERATURE, EXHAUST_PRESSURE);
         double throatDiameter = nozzle.getThroatDiameter();
-        System.out.println("Throat diameter: " + throatDiameter + " m");
         CombustionChamber combustionChamber = new CombustionChamber(throatDiameter);
 
         double
                 finalDiameter = Math.max(combustionChamber.getDiameter(), nozzle.getDiameter()),
                 finalLength = combustionChamber.getDiameter() + nozzle.getLength();
-
-        System.out.println("Total engine size: " + finalLength + " x " + finalDiameter);
-
+        printParametersToConsole(finalLength, finalDiameter);
         return new ChemicalEngine(
                 HARDCODED_MASS, finalLength, finalDiameter,
                 combustionChamber, nozzle);
+    }
+
+    private static void printParametersToConsole(double length, double diameter) {
+        double
+                lengthRounded = ((int) (length * 1000)) / 1000.0,
+                diameterRounded = ((int) (diameter * 1000)) / 1000.0;
+        System.out.println("Total engine size: " + lengthRounded + " m x " + diameterRounded + " m");
     }
 
     private ChemicalEngine(double mass, double length, double diameter,
