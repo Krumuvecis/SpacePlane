@@ -1,28 +1,29 @@
 package vehicles.engines;
 
+import vehicles.engines.propellants.Propellant;
+import vehicles.engines.propellants.SodiumPropellant;
+
 //
 public class IonEngine extends Engine {
     private static final double
-            EXHAUST_VELOCITY = 20000, // arbitrary
-            HARDCODED_DIAMETER = 3,   // arbitrary
-            HARDCODED_LENGTH = 1,     // arbitrary
-            HARDCODED_MASS = 1000;    // arbitrary
+            EXHAUST_VELOCITY = 20000,    // arbitrary
+            EXHAUST_TEMPERATURE = 10000, // arbitrary
+            EXHAUST_PRESSURE = 100000,   // arbitrary
+            HARDCODED_LENGTH = 2,        // arbitrary
+            HARDCODED_MASS = 10000;      // arbitrary
+    private static final Propellant PROPELLANT = new SodiumPropellant();
 
     //
-    protected IonEngine() {
-        super(calculateMass(), calculateLength(), calculateDiameter());
+    protected static IonEngine newIonEngine(double thrust) {
+        Exhaust exhaust = new Exhaust(
+                thrust, EXHAUST_VELOCITY,
+                PROPELLANT.getDensity(EXHAUST_TEMPERATURE, EXHAUST_PRESSURE));
+        return new IonEngine(HARDCODED_MASS, HARDCODED_LENGTH, exhaust.getDiameter());
     }
 
-    private static double calculateDiameter() {
-        return HARDCODED_DIAMETER;
-    }
-
-    private static double calculateLength() {
-        return HARDCODED_LENGTH;
-    }
-
-    private static double calculateMass() {
-        return HARDCODED_MASS;
+    //
+    private IonEngine(double mass, double length, double diameter) {
+        super(mass, length, diameter);
     }
 
     //

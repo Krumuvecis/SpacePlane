@@ -1,6 +1,6 @@
 package vehicles.engines.chemical;
 
-import mathUtilities.Circles;
+import vehicles.engines.Exhaust;
 import vehicles.engines.propellants.Propellant;
 
 //
@@ -8,7 +8,6 @@ public class Nozzle {
     private static final double
             DIAMETER_THROAT_RATIO = 30.0, // arbitrary
             LENGTH_DIAMETER_RATIO = 1 / Math.tan(Math.toRadians(15)); // approximate
-
     private final double
             diameter,
             length;
@@ -17,26 +16,15 @@ public class Nozzle {
     protected Nozzle(Propellant propellant,
                      double thrust, double exhaustVelocity,
                      double exhaustTemperature, double exhaustPressure) {
-        double
-                propellantDensityAtExhaust = propellant.getDensity(exhaustTemperature, exhaustPressure),
-                exhaustCrossSection = calculateExhaustCrossSection(
-                        thrust, exhaustVelocity, propellantDensityAtExhaust);
-        diameter = calculateExhaustDiameter(exhaustCrossSection);
+        double propellantDensityAtExhaust = propellant.getDensity(exhaustTemperature, exhaustPressure);
+        Exhaust exhaust = new Exhaust(thrust, exhaustVelocity, propellantDensityAtExhaust);
+        diameter = exhaust.getDiameter();
         length = diameter * LENGTH_DIAMETER_RATIO;
 
         printParametersToConsole(
                 propellantDensityAtExhaust,
                 length, diameter,
                 getThroatDiameter());
-    }
-
-    // S = F / (ro * ve ^ 2)
-    private double calculateExhaustCrossSection(double thrust, double exhaustVelocity, double propellantDensity) {
-        return thrust / (propellantDensity * Math.pow(exhaustVelocity, 2));
-    }
-
-    private double calculateExhaustDiameter(double crossSection) {
-        return Circles.getRadiusFromArea(crossSection) * 2;
     }
 
     private static void printParametersToConsole(double propellantDensityAtExhaust,

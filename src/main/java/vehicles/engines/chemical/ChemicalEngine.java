@@ -28,17 +28,9 @@ public class ChemicalEngine extends Engine {
         double
                 finalDiameter = Math.max(combustionChamber.getDiameter(), nozzle.getDiameter()),
                 finalLength = combustionChamber.getDiameter() + nozzle.getLength();
-        printParametersToConsole(finalLength, finalDiameter);
         return new ChemicalEngine(
                 HARDCODED_MASS, finalLength, finalDiameter,
                 combustionChamber, nozzle);
-    }
-
-    private static void printParametersToConsole(double length, double diameter) {
-        double
-                lengthRounded = ((int) (length * 1000)) / 1000.0,
-                diameterRounded = ((int) (diameter * 1000)) / 1000.0;
-        System.out.println("Total engine size: " + lengthRounded + " m x " + diameterRounded + " m");
     }
 
     private ChemicalEngine(double mass, double length, double diameter,
