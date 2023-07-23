@@ -9,11 +9,13 @@ public abstract class Engine extends VehiclePart {
 
     //use this for creating new engines
     @SuppressWarnings({"SameParameterValue", "UnnecessaryDefault"})
-    public static Engine newEngine(double targetDiameter, EngineType type) {
+    public static Engine newEngine(EngineType type, double thrust) {
+        System.out.println("Creating new " + type + " engine.");
+        System.out.println("Thrust: " + (thrust / 1000) + " kN");
         try {
             return switch (type) {
-                case CHEMICAL -> ChemicalEngine.newChemicalEngine(targetDiameter);
-                case ION -> new IonEngine(targetDiameter);
+                case CHEMICAL -> ChemicalEngine.newChemicalEngine(thrust);
+                case ION -> new IonEngine();
                 default -> throw new UnsupportedEngineTypeException();
             };
         } catch (UnsupportedEngineTypeException e) {
@@ -26,5 +28,6 @@ public abstract class Engine extends VehiclePart {
         super(PART_NAME, mass, length, diameter);
     }
 
+    //
     public abstract double getExhaustVelocity();
 }

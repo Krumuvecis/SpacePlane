@@ -1,5 +1,7 @@
 package vehicles;
 
+import mathUtilities.Cylinders;
+
 //
 class Cockpit extends VehiclePart {
     private static final String PART_NAME = "Cockpit";
@@ -29,11 +31,11 @@ class Cockpit extends VehiclePart {
 
     private static double calculateFinalLength(double diameter, int passengerCount) {
         return Math.max(
-                CylinderFunctions.getCylinderLength(passengerCount * VOLUME_PER_PASSENGER, diameter),
+                Cylinders.getLength(passengerCount * VOLUME_PER_PASSENGER, diameter),
                 MINIMUM_LENGTH);
     }
 
     private static double calculateMass(double diameter, double length) {
-        return PART_DENSITY * CylinderFunctions.getCylinderVolume(diameter, length);
+        return PART_DENSITY * Cylinders.getVolume(diameter, length);
     }
 }

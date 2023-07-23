@@ -9,6 +9,14 @@ public class CombustionChamber {
     //
     protected CombustionChamber(double throatDiameter) {
         diameter = throatDiameter * DIAMETER_THROAT_RATIO;
+        printParametersToConsole(diameter);
+    }
+
+    private static void printParametersToConsole(double diameter) {
+        double
+                diameter_mm = diameter * 1000,
+                diameter_mm_rounded = ((int) (diameter_mm * 100)) / 100.0;
+        System.out.println("Combustion chamber diameter: " + diameter_mm_rounded + " mm");
     }
 
     //
