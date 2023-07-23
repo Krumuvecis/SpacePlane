@@ -3,7 +3,6 @@ package vehicles.engines.propellants;
 //
 public class Propellant {
     private static final double GAS_CONSTANT = 8.31;
-
     private final double molarMass;
 
     //
