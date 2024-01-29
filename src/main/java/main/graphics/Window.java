@@ -1,50 +1,49 @@
 package main.graphics;
 
-import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.Color;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import vehicles.Vehicle;
 import vehicleGraphics.VehiclePanelData;
 import vehicleGraphics.VehiclePanel;
 import vehicles.VehicleAdapter;
 
 //
 public class Window extends JFrame {
-    private static final int[] SIZE_CORRECTION = new int[] {17, 40};
+    private static final Dimension PANEL_SIZE = new Dimension(1000, 900);
+    private static final int[] WINDOW_SIZE_CORRECTION = new int[] {17, 40};
     private static final Point LOCATION = new Point(600, 50);
     private static final String WINDOW_TITLE = "Vehicle viewer";
     private static final Color BACKGROUND = Color.BLACK;
+
+    private final VehiclePanelData vehiclePanelData;
 
     //
     public Window(VehicleAdapter vehicleAdapter) {
         super();
         setWindowConfig();
-        setContents(vehicleAdapter);
-        setResizable(false);
+        vehiclePanelData = new VehiclePanelData(vehicleAdapter, PANEL_SIZE);
+        setContents();
+        //setResizable(false);
         setVisible(true);
     }
 
     private void setWindowConfig() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocation(LOCATION);
-
-        Dimension optimalSize = VehiclePanelData.getOptimalSize();
         setSize(new Dimension(
-                optimalSize.width + SIZE_CORRECTION[0],
-                optimalSize.height + SIZE_CORRECTION[1]));
+                PANEL_SIZE.width + WINDOW_SIZE_CORRECTION[0],
+                PANEL_SIZE.height + WINDOW_SIZE_CORRECTION[1]));
 
         setTitle(WINDOW_TITLE);
     }
 
-    private void setContents(VehicleAdapter vehicleAdapter) {
+    private void setContents() {
         setBackground(BACKGROUND);
-        add(getVehiclePanel(vehicleAdapter));
+        add(getVehiclePanel());
     }
 
-    private JPanel getVehiclePanel(VehicleAdapter vehicleAdapter) {
-        return new VehiclePanel(new VehiclePanelData(vehicleAdapter));
+    private JPanel getVehiclePanel() {
+        return new VehiclePanel(vehiclePanelData);
     }
 }
